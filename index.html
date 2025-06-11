@@ -97,6 +97,8 @@
 
 <h3>📂 Selecciona repositorios:</h3>
 <div class="repos">
+  <label><input type="checkbox" value="movie"> Movie</label>
+  <label><input type="checkbox" value="familia"> Familia</label>
   <label><input type="checkbox" value="accion"> Acción</label>
   <label><input type="checkbox" value="comedia"> Comedia</label>
   <label><input type="checkbox" value="aventura"> Aventura</label>
@@ -105,8 +107,7 @@
   <label><input type="checkbox" value="animacion"> Animación</label>
   <label><input type="checkbox" value="romance"> Romance</label>
   <label><input type="checkbox" value="drama"> Drama</label>
-  <label><input type="checkbox" value="movie"> Movie</label>
-  <label><input type="checkbox" value="terror"> Terror</label>
+ <label><input type="checkbox" value="terror"> Terror</label>
 </div>
 
 <h3>🔐 Token de GitHub (se guarda localmente):</h3>
@@ -122,6 +123,8 @@
 
 <script>
 const reposUrls = {
+  movie: 'https://api.github.com/repos/zinecia/movie/contents/index.html',
+  familia: 'https://api.github.com/repos/zinecia/label-familia//contents/index.html',
   accion: 'https://api.github.com/repos/zinecia/label-accion/contents/index.html',
   comedia: 'https://api.github.com/repos/zinecia/label-comedia/contents/index.html',
   aventura: 'https://api.github.com/repos/zinecia/label-aventura/contents/index.html',
@@ -130,7 +133,6 @@ const reposUrls = {
   animacion: 'https://api.github.com/repos/zinecia/animacion/contents/index.html',
   romance: 'https://api.github.com/repos/zinecia/romance/contents/index.html',
   drama: 'https://api.github.com/repos/zinecia/drama/contents/index.html',
-  movie: 'https://api.github.com/repos/zinecia/movie/contents/index.html',
   terror: 'https://api.github.com/repos/zinecia/terror/contents/index.html',
 };
 
