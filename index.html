@@ -10,82 +10,110 @@
       --fg: #ffffff;
       --accent: #00d1b2;
       --border: #2a2a2a;
+      --input-bg: #1c1c1c;
+      --input-focus: #00b89c;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
       background-color: var(--bg);
       color: var(--fg);
       font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
       margin: 0;
+      padding: 30px 20px;
+      line-height: 1.6;
     }
 
     h2, h3 {
       color: var(--accent);
+      margin-top: 30px;
     }
 
     textarea, input[type="text"] {
       width: 100%;
-      background: #1c1c1c;
+      background: var(--input-bg);
       color: var(--fg);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 15px;
-      box-sizing: border-box;
+      padding: 12px 14px;
+      font-size: 15px;
+      transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    textarea:focus, input[type="text"]:focus {
+      border-color: var(--input-focus);
+      outline: none;
+      box-shadow: 0 0 5px var(--input-focus);
+    }
+
+    textarea {
+      height: 160px;
+      resize: vertical;
+      margin-bottom: 20px;
+    }
+
+    .repos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
     .repos label {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
       background: #1a1a1a;
-      padding: 8px 12px;
+      padding: 10px 14px;
       border-radius: 6px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      border: 1px solid transparent;
+      transition: all 0.2s ease;
     }
 
     .repos input[type="checkbox"] {
       margin-right: 10px;
       transform: scale(1.2);
+      accent-color: var(--accent);
+    }
+
+    .repos label:hover {
+      border-color: var(--accent);
+      background: #1e1e1e;
     }
 
     .token-inputs {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    @media (min-width: 500px) {
-      .token-inputs {
-        flex-direction: row;
-      }
+      margin-bottom: 20px;
     }
 
     button {
       background-color: var(--accent);
       color: #000;
       border: none;
-      padding: 10px 20px;
+      padding: 12px 20px;
       font-size: 16px;
+      font-weight: bold;
       border-radius: 6px;
       cursor: pointer;
+      margin-right: 10px;
       margin-top: 10px;
-      transition: background 0.3s;
+      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #00b89c;
+      background-color: var(--input-focus);
     }
 
     #resultado {
-      margin-top: 20px;
+      margin-top: 25px;
       background-color: #121212;
       border: 1px solid var(--border);
-      padding: 10px;
+      padding: 14px;
       border-radius: 6px;
       white-space: pre-wrap;
+      font-family: monospace;
     }
   </style>
 </head>
@@ -98,28 +126,30 @@
 <h3>📂 Selecciona repositorios:</h3>
 <div class="repos">
   <label><input type="checkbox" value="movie"> Movie</label>
-   <label><input type="checkbox" value="serie"> Serie</label>
-   <label><input type="checkbox" value="anime"> Anime</label>
+  <label><input type="checkbox" value="serie"> Serie</label>
+  <label><input type="checkbox" value="anime"> Anime</label>
   <label><input type="checkbox" value="familia"> Familia</label>
   <label><input type="checkbox" value="accion"> Acción</label>
+  <label><input type="checkbox" value="actionyaventure"> Action & Adventure</label>
   <label><input type="checkbox" value="comedia"> Comedia</label>
   <label><input type="checkbox" value="crimen"> Crimen</label>
   <label><input type="checkbox" value="aventura"> Aventura</label>
+  <label><input type="checkbox" value="scififantasy"> Sci-Fi & Fantasy</label>
   <label><input type="checkbox" value="cienciaficcion"> Ciencia Ficción</label>
   <label><input type="checkbox" value="belica"> Bélica</label>
   <label><input type="checkbox" value="animacion"> Animación</label>
   <label><input type="checkbox" value="romance"> Romance</label>
   <label><input type="checkbox" value="drama"> Drama</label>
- <label><input type="checkbox" value="terror"> Terror</label>
+  <label><input type="checkbox" value="kdrama"> K-Drama</label>
+  <label><input type="checkbox" value="terror"> Terror</label>
 </div>
 
-<h3>🔐 Token de GitHub (se guarda localmente):  ghp_5q7nVc8GA9Q0VLCczb    wBKOWUeakysf0FRv55</h3>
+<h3>🔐 Token de GitHub (se guarda localmente):  ghp_5q7nVc8GA9Q0VLCczb wBKOWUeakysf0FRv55</h3>
 <div class="token-inputs">
-  <input type="text" id="token1" placeholder="ghp_5q7nVc8GA9Q0VLCczb">
-  <input type="text" id="token2" placeholder="wBKOWUeakysf0FRv55">
+  <input type="text" id="tokenCompleto" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx">
 </div>
-<button onclick="guardarToken()">💾 Guardar Token</button>
 
+<button onclick="guardarToken()">💾 Guardar Token</button>
 <button onclick="publicarCodigo()">🚀 Publicar Código</button>
 
 <pre id="resultado"></pre>
@@ -129,25 +159,29 @@ const reposUrls = {
   movie: 'https://api.github.com/repos/zinecia/movie/contents/index.html',
   serie: 'https://api.github.com/repos/zinecia/serie/contents/index.html',
   anime: 'https://api.github.com/repos/zinecia/anime/contents/index.html',
-familia: 'https://api.github.com/repos/zinecia/familia/contents/index.html',
- accion: 'https://api.github.com/repos/zinecia/label-accion/contents/index.html',
+  familia: 'https://api.github.com/repos/zinecia/familia/contents/index.html',
+  accion: 'https://api.github.com/repos/zinecia/label-accion/contents/index.html',
+  actionyaventure: 'https://api.github.com/repos/zinecia/actionyaventure/contents/index.html',
   comedia: 'https://api.github.com/repos/zinecia/label-comedia/contents/index.html',
   crimen: 'https://api.github.com/repos/zinecia/crimen/contents/index.html',
   aventura: 'https://api.github.com/repos/zinecia/label-aventura/contents/index.html',
+  scififantasy: 'https://api.github.com/repos/zinecia/SciFiFantasy/contents/index.html',
   cienciaficcion: 'https://api.github.com/repos/zinecia/cienciaficcion/contents/index.html',
   belica: 'https://api.github.com/repos/zinecia/label-belica/contents/index.html',
   animacion: 'https://api.github.com/repos/zinecia/animacion/contents/index.html',
   romance: 'https://api.github.com/repos/zinecia/romance/contents/index.html',
   drama: 'https://api.github.com/repos/zinecia/drama/contents/index.html',
+  kdrama: 'https://api.github.com/repos/zinecia/kdrama/contents/index.html',
   terror: 'https://api.github.com/repos/zinecia/terror/contents/index.html',
 };
 
 function guardarToken() {
-  const part1 = document.getElementById("token1").value.trim();
-  const part2 = document.getElementById("token2").value.trim();
-  if (part1 && part2) {
-    localStorage.setItem("github_token", part1 + part2);
+  var token = document.getElementById("tokenCompleto").value.trim();
+  if (token.startsWith("ghp_") && token.length > 20) {
+    localStorage.setItem("github_token", token);
     alert("✅ Token guardado exitosamente");
+  } else {
+    alert("⚠️ Ingresa un token válido que comience con 'ghp_'");
   }
 }
 
